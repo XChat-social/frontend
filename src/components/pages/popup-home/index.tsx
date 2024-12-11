@@ -4,6 +4,7 @@ import ChainSelect from './chain-select'
 import User from './user'
 import PixelButton from '~/components/pages/side-panel/components/PixelButton'
 import BalanceGroup from './BalanceGroup'
+
 function Home() {
   return (
     <ThemeProvider
