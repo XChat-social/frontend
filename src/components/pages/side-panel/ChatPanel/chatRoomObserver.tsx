@@ -48,8 +48,8 @@ class Observer {
       console.log('close', data)
 
       this.room = this.room.filter((room) => room.dialogId !== data.dialogId)
-      console.log('current room', this.room);
-      
+      console.log('current room', this.room)
+
       this.subscribers.forEach((subscriber) =>
         subscriber({ ...data, dismiss: true }),
       )
