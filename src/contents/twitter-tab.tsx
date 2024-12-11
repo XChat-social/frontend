@@ -4,12 +4,12 @@ import type {
   PlasmoGetShadowHostId,
   PlasmoWatchOverlayAnchor,
 } from 'plasmo'
-import { useBoolean } from 'ahooks'
 import Tab from '~/components/pages/tab'
 import cssText from 'data-text:~/styles/globals.css'
 import icon from 'data-base64:../../assets/icon.png'
 import { ChevronRightIcon } from '@radix-ui/react-icons'
 import Image from 'next/image'
+import { useState } from 'react'
 
 type Async<T> = Promise<T> | T
 
@@ -42,8 +42,7 @@ export const watchOverlayAnchor: PlasmoWatchOverlayAnchor = (
 export const getShadowHostId: PlasmoGetShadowHostId = () => `xchat-main`
 
 const TwitterTab = () => {
-  const [isToggle, { toggle }] = useBoolean(false)
-   
+  const [isToggle, setIsToggle] = useState(false)
 
   if (isToggle)
     return (
@@ -61,7 +60,7 @@ const TwitterTab = () => {
             marginTop: 50,
           }}
           className='opacity-50 hover:opacity-100'
-          onClick={toggle}
+          onClick={() => setIsToggle(!isToggle)}
         >
           <ChevronRightIcon className='h-6 w-6 text-bold ml-1 text-black' />
         </div>
@@ -85,7 +84,7 @@ const TwitterTab = () => {
         transition: 'opacity 0.2s ease-in-out',
       }}
       className='opacity-50 hover:opacity-100'
-      onClick={toggle}
+      onClick={() => setIsToggle(!isToggle)}
     >
       <Image src={icon} width={28} height={28} alt='icon'></Image>
     </div>

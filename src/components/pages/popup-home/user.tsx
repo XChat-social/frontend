@@ -2,13 +2,12 @@ import { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
 import { copy } from '~/lib/utils'
 import { CopyIcon } from '@radix-ui/react-icons'
-import { useBoolean } from 'ahooks'
 import { useWallet } from '~/components/wallet-provider'
 
 const User = () => {
   const { account } = useWallet()
   const [X] = useState({ name: 'Anna Hopper', handle: '@AnnaHooper_eth' })
-  const [copied, { setTrue, setFalse }] = useBoolean(false)
+  const [copied, setCopied] = useState(false)
   const shorterAccount = account
     ? account.slice(0, 5) + '...' + account.slice(-5)
     : null
@@ -30,8 +29,8 @@ const User = () => {
             className='cursor-pointer hover:text-[#adff2f]'
             onClick={() => {
               copy(account, () => {
-                setTrue()
-                setTimeout(setFalse, 2000)
+                setCopied(true)
+                setTimeout(() => setCopied(false), 2000)
               })
             }}
           />
