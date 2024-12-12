@@ -42,7 +42,7 @@ const Store = () => {
             <PixelIcon />
           </div>
           <span className='text-sm mt-[8px]'>XCoin</span>
-          <div className='text-xl text-[#BCF804]'>65.00</div>
+          <div className='text-xl text-[#BCF804]'>0</div>
         </div>
         <div className='bg-gray-800 rounded-[10px] w-[200px] h-[115px] flex flex-col items-center'>
           <div className='flex items-center mb-1 mt-[-30px]'>
@@ -53,7 +53,7 @@ const Store = () => {
         </div>
       </div>
 
-      <div className='bg-gray-800 p-3 rounded-[10px] flex items-center justify-between'>
+      {/* <div className='bg-gray-800 p-3 rounded-[10px] flex items-center justify-between'>
         <div className='flex items-center'>
           <div className='w-[48px] h-[48px] bg-[#adff2f] rounded-full'></div>
           <div className='ml-[16px] flex flex-col'>
@@ -64,7 +64,7 @@ const Store = () => {
         <div className='w-[77px] h-[34px] bg-[#BCF804] rounded-[22px] px-[14px] py-[5px] cursor-pointer text-lg text-black text-center'>
           Swap
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
