@@ -123,6 +123,16 @@ controller.set(
           id,
         })
       }
+    } else if(data.type === 'xwebsite'){
+        console.log('data.type===xwebsite');
+        window.postMessage({
+          target: 'x-wallet-sidepanel',
+          data: {
+            success: true,
+            data: 'address',
+          },
+          id,
+        });
     }
   },
 )

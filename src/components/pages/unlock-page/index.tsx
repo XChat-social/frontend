@@ -21,20 +21,6 @@ if (typeof XMLHttpRequest === 'undefined') {
   global.XMLHttpRequest = require('xhr2');
 }
 
-const getTwitterAuthorizeURL = () => {
-  const client = new BusinessExtClient('https://api.xchat.social/business-web', null, null);
-  // 创建空请求对象
-  const request = new Empty();
-  // 调用服务方法
-  client.getTwitterAuthorizeURL(request, {}, (err, response) => {
-    if (err) {
-      console.error('Error:', err.message);
-    } else {
-      console.log('1Response:', response.toObject());
-      chrome.runtime.sendMessage({ action: 'createTab', url: response.toObject().url });
-    }
-  });
-}
 //grpc-end
 
 const nonce = 0
@@ -115,10 +101,29 @@ const UnlockPage = () => {
   // };
   //grpc接口-end
 
+  const getTwitterAuthorizeURL = () => {
+    const client = new BusinessExtClient('https://api.xchat.social/business-web', null, null);
+    // 创建空请求对象
+    const request = new Empty();
+    // 调用服务方法
+    client.getTwitterAuthorizeURL(request, {}, (err, response) => {
+      if (err) {
+        console.error('Error:', err.message);
+      } else {
+        //暂时先让他跳转， 实际应该使用redux来共享这个account数据， 在inpage.ts的监听器中设置redux中的setAccount 
+        console.log('before..............redux..................');
+        //setAccount('result.data');
+        console.log('1Response:', response.toObject());
+        //暂时--jieshu
+        chrome.runtime.sendMessage({ action: 'createTab', url: response.toObject().url });
+      }
+    });
+  }
 
   const requestXLogin = async () => {
     try {
-      chrome.runtime.sendMessage({ action: 'createTab', url: 'https://twitter.com/i/oauth2/authorize?response_type=code&client_id=ZUIteDdNQkVENDZsUWpJWFA1dWw6MTpjaQ&redirect_uri=http%3A%2F%2F13.61.35.52%3A8080%2Ftwitter%2Fsignin&scope=tweet.read users.read&state=FWSfYbie4_QaLOXQ&code_challenge=9H06iCwWsfXoYGhk2SrjTl-HP1C5GuNVFZPCZP2QZXs&code_challenge_method=S256' });
+      //chrome.runtime.sendMessage({ action: 'createTab', url: 'https://twitter.com/i/oauth2/authorize?response_type=code&client_id=ZUIteDdNQkVENDZsUWpJWFA1dWw6MTpjaQ&redirect_uri=http%3A%2F%2F13.61.35.52%3A8080%2Ftwitter%2Fsignin&scope=tweet.read users.read&state=FWSfYbie4_QaLOXQ&code_challenge=9H06iCwWsfXoYGhk2SrjTl-HP1C5GuNVFZPCZP2QZXs&code_challenge_method=S256' });
+      
       // const result = await request.send({
       //   method: 'requestLogin',
       //   data: {
