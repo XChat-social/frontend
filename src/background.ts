@@ -7,8 +7,16 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.action === 'createTab') {
         console.log('2222222222222222222222222='+message.url);
         chrome.tabs.create({ url: message.url });
-    }
+    } 
+    // else   if (message.type === "updateAccount") {
+    //   chrome.storage.local.set({ account: message.account }, () => {
+    //     console.log("------------------------99999999999999999Account updated in background:", message.account);
+    //   });
+    //   sendResponse({ status: "success" });
+    // }
   });
+  
+
   console.log('index loading complete.......');
 
 

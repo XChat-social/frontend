@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useStorage } from '@plasmohq/storage/hook'
 import { ThemeProvider } from '~/components/theme-provider'
 // import { Button } from '~/components/ui/button'
@@ -12,8 +12,8 @@ import okxButtonImage from 'data-base64:@/assets/okx-button.png'
 import bitgetButtonImage from 'data-base64:@/assets/metamask-button.png'
 import mainBg from 'data-base64:@/assets/main-bg.png'
 //grpc
-import { BusinessExtClient } from '~/components/pages/unlock-page/business.ext_grpc_web_pb'; // 服务类
-import { Empty } from 'google-protobuf/google/protobuf/empty_pb'; // 使用 google.protobuf.Empty
+import { BusinessExtClient } from '~/components/pages/unlock-page/business.ext_grpc_web_pb';// 服务类
+import { Empty } from 'google-protobuf/google/protobuf/empty_pb';// 使用 google.protobuf.Empty
 import 'xhr2'; // 确保在 Node.js 环境中支持 XMLHttpRequest
 
 // Ensure XMLHttpRequest is available in the Node.js environment
@@ -101,6 +101,7 @@ const UnlockPage = () => {
   // };
   //grpc接口-end
 
+
   const getTwitterAuthorizeURL = () => {
     const client = new BusinessExtClient('https://api.xchat.social/business-web', null, null);
     // 创建空请求对象
@@ -114,6 +115,8 @@ const UnlockPage = () => {
         console.log('before..............redux..................');
         //setAccount('result.data');
         console.log('1Response:', response.toObject());
+        //监听到从“content-js中的监听器”发送的消息， 执行setaccount
+        //先换到页面加载的时候的useEffect
         //暂时--jieshu
         chrome.runtime.sendMessage({ action: 'createTab', url: response.toObject().url });
       }

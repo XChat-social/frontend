@@ -7,15 +7,24 @@ import SidePanel from '../side-panel'
 const Tab = () => {
   const [loading, setLoading] = useState(true)
   // 监听storage获取登录状态
-  const [account] = useStorage('account')
+  const [account,setAccount] = useStorage('account')
 
   setTimeout(() => {
     setLoading(false)
   }, 300)
 
-  useEffect(() => {
-    console.log('Tab account change', account)
-  }, [account])
+ 
+  chrome.storage.local.get("account", (result) => {
+   const account2 = result.account; // 读取存储中的 account 值
+   if (account2) {
+     console.log("------------------------Account:", account2);
+     setAccount(account2);
+   } else {
+    console.log("No account found in storage.");
+   }
+ });
+   console.log("22222222------------------------Account:",account);
+
 
   if (loading) {
     return (

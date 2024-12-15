@@ -1,10 +1,13 @@
+import { useStorage } from '@plasmohq/storage/hook'
 import type { PlasmoCSConfig } from 'plasmo'
-import { inpageController } from '~/controller/inpageController'
+import { useEffect, useRef } from 'react';
+import { inpageController } from '~/controller/inpageController' 
 
 export const config: PlasmoCSConfig = {
   matches: ['<all_urls>'],
   world: 'MAIN',
 }
+ 
 
 // 监听来自side panel或者content scripts的消息 他们都处于非Main的环境里，都具有window对象
 window.addEventListener('message', (crop) => {
@@ -27,17 +30,38 @@ window.addEventListener('message', (crop) => {
     if(redirect_url === 'redirectx'){
       //{ id: string; data: { method: string; data: any }; target: string }
       const userId = urlParam.get('userId');
-      const param = { id: '1',                   //id: 'userId?.toString', //这里要用chatgpt修改
-                      data: { method: 'method_redirectx', data: Object.fromEntries(urlParam.entries()) },
+      const urlParamObj = Object.fromEntries(urlParam.entries());
+      //set_account(urlParamObj); //直接调用
+      //handleEvent();//useeffect调用 
+      
+      // chrome.runtime.sendMessage(
+      //   { type: "updateAccount", urlParamObj },
+      //   (response) => {
+      //     console.log("--------------56565555555555555555555Account update response:", response);
+      //   }
+      // );
+      
+        //chrome.storage.local.set({ account: urlParamObj }, () => {
+        //   console.log("------------------------555555555Account updated to:", urlParamObj);
+        // });
+      window.postMessage(
+        { source: "inpage", type: "updateAccount", account: urlParamObj },
+        "*"
+      );
+      console.log("---------------111Message forwarded to background:", urlParamObj);
+      //清理location
+      window.history.replaceState({},document.title, window.location.pathname);
+      const param = { id: urlParamObj.userId,                   //id: 'userId?.toString', //这里要用chatgpt修改
+                      data: { method: 'method_redirectx', data:  urlParamObj},
                       target: 'target_redirectx'};
       console.log(
-        'execute controller_from_x_content_scripts2:',
+        '----------------------------execute controller_from_x_content_scripts2:',
         inpageController('requestLogin', param),
-      )
+      );
     } else {
       console.log('redirect_url:',redirect_url);
     }
   } 
-})
+});
 
  

@@ -445,16 +445,16 @@ proto.pb.BusinessExtPromiseClient.prototype.twitterSignIn =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.pb.DailySignInReq,
+ *   !proto.google.protobuf.Empty,
  *   !proto.pb.DailySignInResp>}
  */
 const methodDescriptor_BusinessExt_DailySignIn = new grpc.web.MethodDescriptor(
   '/pb.BusinessExt/DailySignIn',
   grpc.web.MethodType.UNARY,
-  proto.pb.DailySignInReq,
+  google_protobuf_empty_pb.Empty,
   proto.pb.DailySignInResp,
   /**
-   * @param {!proto.pb.DailySignInReq} request
+   * @param {!proto.google.protobuf.Empty} request
    * @return {!Uint8Array}
    */
   function(request) {
@@ -465,7 +465,7 @@ const methodDescriptor_BusinessExt_DailySignIn = new grpc.web.MethodDescriptor(
 
 
 /**
- * @param {!proto.pb.DailySignInReq} request The
+ * @param {!proto.google.protobuf.Empty} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
@@ -486,7 +486,7 @@ proto.pb.BusinessExtClient.prototype.dailySignIn =
 
 
 /**
- * @param {!proto.pb.DailySignInReq} request The
+ * @param {!proto.google.protobuf.Empty} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
@@ -506,122 +506,183 @@ proto.pb.BusinessExtPromiseClient.prototype.dailySignIn =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.pb.ClaimSevenDayRewardReq,
- *   !proto.pb.ClaimSevenDayRewardResp>}
+ *   !proto.google.protobuf.Empty,
+ *   !proto.pb.TwitterFollowResp>}
  */
-const methodDescriptor_BusinessExt_ClaimSevenDayReward = new grpc.web.MethodDescriptor(
-  '/pb.BusinessExt/ClaimSevenDayReward',
+const methodDescriptor_BusinessExt_FollowTwitter = new grpc.web.MethodDescriptor(
+  '/pb.BusinessExt/FollowTwitter',
   grpc.web.MethodType.UNARY,
-  proto.pb.ClaimSevenDayRewardReq,
-  proto.pb.ClaimSevenDayRewardResp,
+  google_protobuf_empty_pb.Empty,
+  proto.pb.TwitterFollowResp,
   /**
-   * @param {!proto.pb.ClaimSevenDayRewardReq} request
+   * @param {!proto.google.protobuf.Empty} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.pb.ClaimSevenDayRewardResp.deserializeBinary
+  proto.pb.TwitterFollowResp.deserializeBinary
 );
 
 
 /**
- * @param {!proto.pb.ClaimSevenDayRewardReq} request The
+ * @param {!proto.google.protobuf.Empty} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.pb.ClaimSevenDayRewardResp)}
+ * @param {function(?grpc.web.RpcError, ?proto.pb.TwitterFollowResp)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.pb.ClaimSevenDayRewardResp>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.pb.TwitterFollowResp>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.pb.BusinessExtClient.prototype.claimSevenDayReward =
+proto.pb.BusinessExtClient.prototype.followTwitter =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/pb.BusinessExt/ClaimSevenDayReward',
+      '/pb.BusinessExt/FollowTwitter',
       request,
       metadata || {},
-      methodDescriptor_BusinessExt_ClaimSevenDayReward,
+      methodDescriptor_BusinessExt_FollowTwitter,
       callback);
 };
 
 
 /**
- * @param {!proto.pb.ClaimSevenDayRewardReq} request The
+ * @param {!proto.google.protobuf.Empty} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.pb.ClaimSevenDayRewardResp>}
+ * @return {!Promise<!proto.pb.TwitterFollowResp>}
  *     Promise that resolves to the response
  */
-proto.pb.BusinessExtPromiseClient.prototype.claimSevenDayReward =
+proto.pb.BusinessExtPromiseClient.prototype.followTwitter =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/pb.BusinessExt/ClaimSevenDayReward',
+      '/pb.BusinessExt/FollowTwitter',
       request,
       metadata || {},
-      methodDescriptor_BusinessExt_ClaimSevenDayReward);
+      methodDescriptor_BusinessExt_FollowTwitter);
 };
 
 
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.pb.ClaimTwitterFollowRewardReq,
- *   !proto.pb.ClaimTwitterFollowRewardResp>}
+ *   !proto.pb.GetTaskStatusReq,
+ *   !proto.pb.GetTaskStatusResp>}
  */
-const methodDescriptor_BusinessExt_ClaimTwitterFollowReward = new grpc.web.MethodDescriptor(
-  '/pb.BusinessExt/ClaimTwitterFollowReward',
+const methodDescriptor_BusinessExt_GetTaskStatus = new grpc.web.MethodDescriptor(
+  '/pb.BusinessExt/GetTaskStatus',
   grpc.web.MethodType.UNARY,
-  proto.pb.ClaimTwitterFollowRewardReq,
-  proto.pb.ClaimTwitterFollowRewardResp,
+  proto.pb.GetTaskStatusReq,
+  proto.pb.GetTaskStatusResp,
   /**
-   * @param {!proto.pb.ClaimTwitterFollowRewardReq} request
+   * @param {!proto.pb.GetTaskStatusReq} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.pb.ClaimTwitterFollowRewardResp.deserializeBinary
+  proto.pb.GetTaskStatusResp.deserializeBinary
 );
 
 
 /**
- * @param {!proto.pb.ClaimTwitterFollowRewardReq} request The
+ * @param {!proto.pb.GetTaskStatusReq} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.pb.ClaimTwitterFollowRewardResp)}
+ * @param {function(?grpc.web.RpcError, ?proto.pb.GetTaskStatusResp)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.pb.ClaimTwitterFollowRewardResp>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.pb.GetTaskStatusResp>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.pb.BusinessExtClient.prototype.claimTwitterFollowReward =
+proto.pb.BusinessExtClient.prototype.getTaskStatus =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/pb.BusinessExt/ClaimTwitterFollowReward',
+      '/pb.BusinessExt/GetTaskStatus',
       request,
       metadata || {},
-      methodDescriptor_BusinessExt_ClaimTwitterFollowReward,
+      methodDescriptor_BusinessExt_GetTaskStatus,
       callback);
 };
 
 
 /**
- * @param {!proto.pb.ClaimTwitterFollowRewardReq} request The
+ * @param {!proto.pb.GetTaskStatusReq} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.pb.ClaimTwitterFollowRewardResp>}
+ * @return {!Promise<!proto.pb.GetTaskStatusResp>}
  *     Promise that resolves to the response
  */
-proto.pb.BusinessExtPromiseClient.prototype.claimTwitterFollowReward =
+proto.pb.BusinessExtPromiseClient.prototype.getTaskStatus =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/pb.BusinessExt/ClaimTwitterFollowReward',
+      '/pb.BusinessExt/GetTaskStatus',
       request,
       metadata || {},
-      methodDescriptor_BusinessExt_ClaimTwitterFollowReward);
+      methodDescriptor_BusinessExt_GetTaskStatus);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.pb.ClaimTaskRewardReq,
+ *   !proto.pb.ClaimTaskRewardResp>}
+ */
+const methodDescriptor_BusinessExt_ClaimTaskReward = new grpc.web.MethodDescriptor(
+  '/pb.BusinessExt/ClaimTaskReward',
+  grpc.web.MethodType.UNARY,
+  proto.pb.ClaimTaskRewardReq,
+  proto.pb.ClaimTaskRewardResp,
+  /**
+   * @param {!proto.pb.ClaimTaskRewardReq} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.pb.ClaimTaskRewardResp.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.pb.ClaimTaskRewardReq} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.pb.ClaimTaskRewardResp)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.pb.ClaimTaskRewardResp>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.pb.BusinessExtClient.prototype.claimTaskReward =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/pb.BusinessExt/ClaimTaskReward',
+      request,
+      metadata || {},
+      methodDescriptor_BusinessExt_ClaimTaskReward,
+      callback);
+};
+
+
+/**
+ * @param {!proto.pb.ClaimTaskRewardReq} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.pb.ClaimTaskRewardResp>}
+ *     Promise that resolves to the response
+ */
+proto.pb.BusinessExtPromiseClient.prototype.claimTaskReward =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/pb.BusinessExt/ClaimTaskReward',
+      request,
+      metadata || {},
+      methodDescriptor_BusinessExt_ClaimTaskReward);
 };
 
 
