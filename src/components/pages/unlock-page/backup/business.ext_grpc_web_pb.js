@@ -597,7 +597,7 @@ const methodDescriptor_BusinessExt_GetTaskStatus = new grpc.web.MethodDescriptor
  *     The XHR Node Readable Stream
  */
 proto.pb.BusinessExtClient.prototype.getTaskStatus =
-    function(request, metadata, callback) { 
+    function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
       '/pb.BusinessExt/GetTaskStatus',
       request,

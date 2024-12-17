@@ -7,6 +7,12 @@ import { Button } from '~/components/ui/button'
 import CreateInviteCodeDialog from './createInviteCodeDialog'
 import InvitationCodeInput from '../components/InvitationCodeInput'
 
+//grpc
+import { BusinessExtClient } from '~/components/pages/unlock-page/business.ext_grpc_web_pb';// 服务类
+//import { GetTaskStatusReq } from '~/components/pages/unlock-page/business.ext_pb'; 
+import { Empty } from 'google-protobuf/google/protobuf/empty_pb';// 使用 google.protobuf.Empty
+import 'xhr2'; // 确保在 Node.js 环境中支持 XMLHttpRequest
+
 interface TaskItemProps {
   icon: React.ReactNode
   name: string
@@ -36,33 +42,108 @@ const TaskItem = ({ icon, name, award, desc, backgroundColor, handleClick }: Tas
 }
 
 const Task = () => {
-    //1-begin: 当日签到
-    const [isClickedToday, setIsClickedToday] = useState<boolean>(false);
-    const [currentDate, setCurrentDate] = useState<string>('');
+    //新版-begin
+    //1-begin: 当日签到(改为根据状态来设置按钮的样子， 和设置按钮所触发的函数)
+    const [currentState, setCurrentState] = useState<string>('');
     useEffect(() => {
-        // 获取当前日期
-        const today = new Date();
-        const dateString = today.toISOString().split('T')[0];
-        setCurrentDate(dateString);
+        // 获取“每日签到”这个任务的当前状态
+        //访问“查询每日签到”接口。。。。
+        const con_currentState = '';
+        
+    const client = new BusinessExtClient('https://api.xchat.social/business-web', null, null);
+    // 创建请求对象
+    const request = new proto.pb.GetTaskStatusReq();
+    request.setTaskId(1001);
+    const metadata = null;
+    //const request = { task_id: '1001' };
+    // 调用服务方法
+    //client.getTaskStatus();
+    client.getTaskStatus(request, metadata, (err, response) => {
+      if (err) {
+        console.error('33333333333333333333333333Error:', err.message);
+      } else {
+        //暂时先让他跳转， 实际应该使用redux来共享这个account数据， 在inpage.ts的监听器中设置redux中的setAccount 
+        console.log('3333333333333333333333333333333333333333before..............redux..................');
+        //setAccount('result.data');
+        console.log('3333333333333333333333Response:', response.toObject());
+        alert(response.toObject());
+        //con_currentState = response.toObject();
+      }
+    });
+        
+        setCurrentState(con_currentState);
         // 从localStorage中获取之前保存的点击日期
-        const storedDate = localStorage.getItem('lastClickedDate');
-        if (storedDate === dateString) {
-            setIsClickedToday(true);
+        if (currentState === '1') {
+          taskList[0].backgroundColor='#BCF804';
+          taskList[0].award = 'Sign';
+          taskList[0].handleClick = handleClick1_1;
+        } else if (currentState === '3') {
+          taskList[0].backgroundColor='#BCF804';
+          taskList[0].award = 'Claim';
+          taskList[0].handleClick = handleClick1_1;
+        } else if (currentState === '4') {
+          taskList[0].backgroundColor='#ccc';
+          taskList[0].award = 'Claim';
+          taskList[0].handleClick = handleClick1_1;
+        } else {
+          alert('接口返回值错误.......');
         }
     }, []);
-    const handleClick1 = () => {
-        if(!isClickedToday) {
-          // 将点击状态和当前日期保存到localStorage
-          //localStorage.setItem('isClicked', 'true');
-          localStorage.setItem('lastClickedDate', currentDate);
-          // 替换state状态
-          setIsClickedToday(true);
-        } else {
-          alert('已经点击过当日签到了');
-        }
+    const handleClick1_1 = () => {
+      if (currentState === '1') {
+        //访问"执行每日签到"接口。。。。。。。。。。。。。。。
+
+        //如果访问接口成功， 执行下面动作： 将状态设置为“等待领取积分”，修改按钮样式和触发函数
+        setCurrentState('3'); 
+        //如果访问"执行每日签到"接口时，抛出异常， 则setCurrentState('1');不修改按钮样式和触发函数。。。。。。。。。
+        taskList[0].backgroundColor='#BCF804';
+        taskList[0].award = 'claim';
+        taskList[0].handleClick = handleClick1_1;
+      } else if (currentState === '3') {
+        //访问"执行领取积分"接口。。。。。。。。。。。。。
+        
+        //如果访问"执行领取积分"接口成功， 执行下面动作： 将状态设置为“已经领取积分”，修改按钮样式和触发函数
+        setCurrentState('4');
+        taskList[0].backgroundColor='#BCF804';
+        taskList[0].award = 'claim';
+        taskList[0].handleClick = handleClick1_1;
+        //如果访问"执行领取积分"接口时，抛出异常， 则setCurrentState('3');不修改按钮样式和触发函数。。。。。。。。。
+
+      } else if (currentState === '4') {
+        //状态为“已经领取完积分”的时候， 不做任何事情
+      }
     };
-    const backgroundColor1 = isClickedToday? '#ccc' : '#BCF804';
+
+
     //1-end:   当日签到
+    //新版-end
+    // //1-begin: 当日签到
+    // const [isClickedToday, setIsClickedToday] = useState<boolean>(false);
+    // const [currentDate, setCurrentDate] = useState<string>('');
+    // useEffect(() => {
+    //     // 获取当前日期
+    //     const today = new Date();
+    //     const dateString = today.toISOString().split('T')[0];
+    //     setCurrentDate(dateString);
+    //     // 从localStorage中获取之前保存的点击日期
+    //     const storedDate = localStorage.getItem('lastClickedDate');
+    //     if (storedDate === dateString) {
+    //         setIsClickedToday(true);
+    //     }
+    // }, []);
+    // const handleClick1 = () => {
+    //     if(!isClickedToday) {
+    //       // 将点击状态和当前日期保存到localStorage
+    //       //localStorage.setItem('isClicked', 'true');
+    //       localStorage.setItem('lastClickedDate', currentDate);
+    //       // 替换state状态
+    //       setIsClickedToday(true);
+    //     } else {
+    //       alert('已经点击过当日签到了');
+    //     }
+    // };
+    // const backgroundColor1 = isClickedToday? '#ccc' : '#BCF804';
+    // //1-end:   当日签到
     //2-begin: 连续七天签到
     const [spanBgColor, setSpanBgColor] = useState<string>('');
     const [isLoggedInSevenDays, setIsLoggedInSevenDays] = useState<boolean>(false);
@@ -224,8 +305,10 @@ const Task = () => {
         desc: 'Welcome to XChat!',
         buttonText: 'Claim',
         buttonColor: '#adff2f',
-        backgroundColor: backgroundColor1,
-        handleClick: handleClick1,
+        backgroundColor: '#BCF804',
+        handleClick: handleClick1_1,
+        // backgroundColor: backgroundColor1,
+        // handleClick: handleClick1,
       },
       {
         icon: <Gift/>,
