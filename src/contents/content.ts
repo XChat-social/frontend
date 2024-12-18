@@ -13,9 +13,12 @@ window.addEventListener('message', (crop) => {
   const { type, account } = crop.data;
   if (type === "updateAccount") {
     // 在内容脚本中使用 chrome.storage 设置数据
-      console.log("-------------------------------8888888888Account updated:", account);
+    console.log("-------------------------------8888888888Account updated:", account);
     chrome.storage.local.set({ account }, () => {
       console.log("-------------------------------Account updated:", account);
+      chrome.storage.local.get("account", (result) => {
+          console.log("Account retrieved after set:", result.account);
+      });
     });
   }
 })

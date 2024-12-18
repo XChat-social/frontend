@@ -22,8 +22,10 @@ window.addEventListener('message', (crop) => {
     )
   } else if(crop.origin === 'https://x.com'){
     //alert(crop);//redirect=redirectx
-    console.log('crop is:',crop);
+    //console.log('crop is:',crop);
     //1.监听跳转（content_scripts）
+    //window.location.search是后端redirect到的url：
+    //https://x.com/?redirect=redirectx&token=6f8f7d9d74d8cb33971e0963a4342d2e&userId=6&nickname=Kurry&avatarUrl=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1865723832775917568%2FDaTBV4Rh_normal.png&twitterUsername=Kurry_test
     const urlParam = new URLSearchParams(window.location.search);
     const redirect_url =  urlParam.get('redirect');
     urlParam.set('type', 'xwebsite');
@@ -59,7 +61,7 @@ window.addEventListener('message', (crop) => {
         inpageController('requestLogin', param),
       );
     } else {
-      console.log('redirect_url:',redirect_url);
+      //console.log('redirect_url:',redirect_url);
     }
   } 
 });
