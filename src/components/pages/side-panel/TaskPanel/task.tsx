@@ -64,12 +64,15 @@ const Task = () => {
   //const [handleClick1_1, setHandleClick1_1] = useState(() => { });
 
   const handleClick1_0 = () => { };
-  const [award1, setAward1] = useState('Sign');
+  //按钮上的背景色和字
+  const [award1, setAward1] = useState('Finish');
   const [b1, setB1] = useState('#BCF804');
   const [award2, setAward2] = useState('Claim');
   const [b2, setB2] = useState('#ccc');
   const [award3, setAward3] = useState('Focous');
   const [b3, setB3] = useState('#BCF804');
+  //邀请码
+  const [inviteCode, setInviteCode] = useState('1122');
 
   useEffect(() => {
     chrome.storage.local.get("account", (result) => {
@@ -136,10 +139,10 @@ const Task = () => {
             if (con_currentState === '1') {
               console.log(con_currentState, '-con_currentState === 1');
               // taskList[0].backgroundColor = '#BCF804';
-              // taskList[0].award = 'Sign';
+              // taskList[0].award = 'Finish';
               // taskList[0].handleClick = handleClick1_1;
               setB1('#BCF804');
-              setAward1('Sign');
+              setAward1('Finish');
             } else if (con_currentState === '3') {
               console.log(con_currentState, '-con_currentState === 3');
               // taskList[0].backgroundColor = '#BCF804';
@@ -163,7 +166,7 @@ const Task = () => {
           }
         }
       });
-      //currentState7
+      //连续七天签到： currentState7
       request.setTaskId(1002);
       client.getTaskStatus(request, metadata, (err, response) => {
         if (err) {
@@ -201,7 +204,7 @@ const Task = () => {
           }
         }
       });
-      //currentStatef
+      //关注xchat的twitter账号： currentStatef
       request.setTaskId(1003);
       client.getTaskStatus(request, metadata, (err, response) => {
         if (err) {
@@ -239,14 +242,16 @@ const Task = () => {
           }
         }
       });
+      //把“用户account中的邀请码”写入到state变量中去： 
+      setInviteCode(account3?.inviteCode || '');
     }
   }, [account3]);
 
 
   const handleClick1_1 = () => {
-    alert('currentState=' + currentState);
+    //alert('currentState=' + currentState);
     console.log(currentState === '1', '-getTaskStatus--222222-means:');
-    alert('account3=' + account3);
+    //alert('account3=' + account3);
     if (currentState === '1') {
       console.log(currentState === '1', '-getTaskStatus--currentState1:');
       //访问"执行每日签到"接口。。。。。。。。。。。。。。。
@@ -270,9 +275,11 @@ const Task = () => {
             //如果访问接口成功， 执行下面动作： 将状态设置为“等待领取积分”，修改按钮样式和触发函数
             setCurrentState('3');
             //如果访问"执行每日签到"接口时，抛出异常， 则setCurrentState('1');不修改按钮样式和触发函数。。。。。。。。。
-            taskList[0].backgroundColor = '#BCF804';
-            taskList[0].award = 'Claim';
-            taskList[0].handleClick = handleClick1_1;
+            // taskList[0].backgroundColor = '#BCF804';
+            // taskList[0].award = 'Claim';
+            // taskList[0].handleClick = handleClick1_1;
+            setB1('#BCF804');
+            setAward1('Claim');
             console.log('3', '-dailySignIn--means:', response.toObject().message);
           } else {
             console.log('---dailySignIn-errormessage is:', response.toObject().message);
@@ -303,9 +310,11 @@ const Task = () => {
           if (response.toObject().code === 0) {
             //如果访问"执行领取积分"接口成功， 执行下面动作： 将状态设置为“已经领取积分”，修改按钮样式和触发函数
             setCurrentState('4');
-            taskList[0].backgroundColor = '#ccc';
-            taskList[0].award = 'Claim';
-            taskList[0].handleClick = handleClick1_1;
+            // taskList[0].backgroundColor = '#ccc';
+            // taskList[0].award = 'Claim';
+            // taskList[0].handleClick = handleClick1_1;
+            setB1('#ccc');
+            setAward1('Claim');
             console.log('4', '-claimTaskReward--means:', response.toObject().message);
           } else {
             //如果访问"执行领取积分"接口时，抛出异常， 则setCurrentState('3');不修改按钮样式和触发函数。。。。。。。。。      
@@ -321,14 +330,16 @@ const Task = () => {
 
   //"七天签到"的按钮点击
   const handleClick1_2 = () => {
-    alert('currentState7=' + currentState7);
+    //alert('currentState7=' + currentState7);
     console.log(currentState7 === '1', '-getTaskStatus--currentState7-means:', currentState7);
-    alert('account3=' + account3);
+    //alert('account3=' + account3);
     if (currentState7 === '1') {
       console.log(currentState7 === '1', '-has yet enought 7,getTaskStatus--currentState7:1');
-      taskList[1].backgroundColor = '#ccc';
-      taskList[1].award = 'Claim';
-      taskList[1].handleClick = handleClick1_2;
+      // taskList[1].backgroundColor = '#ccc';
+      // taskList[1].award = 'Claim';
+      // taskList[1].handleClick = handleClick1_2;
+      // setB2('#ccc');
+      // setAward2('Claim');
       console.log('1', '-has yet enought 7,-claimTaskReward-currentState7-means:');
     } else if (currentState7 === '3') {
       console.log(currentState7 === '3', '-getTaskStatus-currentState7-currentState3:3');
@@ -354,10 +365,12 @@ const Task = () => {
           if (response.toObject().code === 0) {
             //如果访问"执行领取积分"接口成功， 执行下面动作： 将状态设置为“已经领取积分”，修改按钮样式和触发函数
             setCurrentState7('4');
-            taskList[1].backgroundColor = '#ccc';
-            taskList[1].award = 'Claim';
-            taskList[1].handleClick = handleClick1_2;
-            console.log('4', '-claimTaskReward-currentState7-means:', response.toObject().message);
+            // taskList[1].backgroundColor = '#ccc';
+            // taskList[1].award = 'Claim';
+            // taskList[1].handleClick = handleClick1_2;
+            setB2('#ccc');
+            setAward2('Claim');
+            console.log('4', '-claimTaskReward-currentState7-777777777777788888888means:', response.toObject().message);
           } else {
             //如果访问"执行领取积分"接口时，抛出异常， 则setCurrentState('3');不修改按钮样式和触发函数。。。。。。。。。      
             console.log('---claimTaskReward-errormessage currentState7 is:', response.toObject().message);
@@ -372,9 +385,9 @@ const Task = () => {
 
   //"关注twitter"的按钮点击
   const handleClick1_3 = () => {
-    alert('currentStatef=' + currentStatef);
+    //alert('currentStatef=' + currentStatef);
     console.log(currentStatef === '1', '-getTaskStatus--currentStatef-means:');
-    alert('account3=' + account3);
+    //alert('account3=' + account3);
     if (currentStatef === '1') {
       console.log(currentStatef === '1', '-getTaskStatus-currentStatef:1');
       //访问"执行关注twitter"接口。。。。。。。。。。。。。。。
@@ -398,9 +411,12 @@ const Task = () => {
             //如果访问接口成功， 执行下面动作： 将状态设置为“等待领取积分”，修改按钮样式和触发函数
             setCurrentStatef('3');
             //如果访问"执行每日签到"接口时，抛出异常， 则setCurrentState('1');不修改按钮样式和触发函数。。。。。。。。。
-            taskList[2].backgroundColor = '#BCF804';
-            taskList[2].award = 'Claim';
-            taskList[2].handleClick = handleClick1_3;
+            // taskList[2].backgroundColor = '#BCF804';
+            // taskList[2].award = 'Claim';
+            // taskList[2].handleClick = handleClick1_3;
+            setB3('#BCF804');
+            setAward3('Claim');
+            chrome.runtime.sendMessage({ action: 'createTab', url: 'https://x.com/XChat_Official' });
             console.log('3', '-dailySignIn-currentStatef-means:', response.toObject().message);
           } else {
             console.log('---dailySignIn-currentStatef-errormessage is:', response.toObject().message);
@@ -431,10 +447,14 @@ const Task = () => {
           if (response.toObject().code === 0) {
             //如果访问"执行领取积分"接口成功， 执行下面动作： 将状态设置为“已经领取积分”，修改按钮样式和触发函数
             setCurrentStatef('4');
-            taskList[2].backgroundColor = '#ccc';
-            taskList[2].award = 'Claim';
-            taskList[2].handleClick = handleClick1_3;
+            // taskList[2].backgroundColor = '#ccc';
+            // taskList[2].award = 'Claim';
+            // taskList[2].handleClick = handleClick1_3;
+            setB3('#ccc');
+            setAward3('Claim');
+            //这里还需要: 显示给用户他“领取到了多少积分”： alert()---------????
             console.log('4', '-claimTaskReward-currentStatef-means:', response.toObject().message);
+            alert(response.toObject().message);
           } else {
             //如果访问"执行领取积分"接口时，抛出异常， 则setCurrentState('3');不修改按钮样式和触发函数。。。。。。。。。      
             console.log('---claimTaskReward-currentStatef-errormessage is:', response.toObject().message);
@@ -476,85 +496,85 @@ const Task = () => {
   // };
   // const backgroundColor1 = isClickedToday? '#ccc' : '#BCF804';
   // //1-end:   当日签到
-  //2-begin: 连续七天签到
-  const [spanBgColor, setSpanBgColor] = useState<string>('');
-  const [isLoggedInSevenDays, setIsLoggedInSevenDays] = useState<boolean>(false);
-  useEffect(() => {
-    // 从localStorage获取连续登录天数
-    const consecutiveLoginDays = localStorage.getItem('consecutiveLoginDays');
-    if (consecutiveLoginDays && parseInt(consecutiveLoginDays) >= 7) {
-      setIsLoggedInSevenDays(true);
-      setSpanBgColor('#BCF804');
-    } else {
-      setIsLoggedInSevenDays(false);
-      setSpanBgColor('#ccc');
-    }
-  }, []);
-  const handleSpanClick = () => {
-    if (isLoggedInSevenDays) {
-      // 将连续登录天数清零并存入localStorage
-      localStorage.setItem('consecutiveLoginDays', '0');
-      // 替换state状态
-      setIsLoggedInSevenDays(false);
-      // 将背景色设置为灰色
-      setSpanBgColor('#ccc');
-    } else {
-      alert('已经点击过连续7日签到了');
-    }
-  };
-  //2-end: 连续七天签到
-  //3-begin: 关注xchart在twitter上的账号
-  const [spanBgColor_follow, setSpanBgColor_follow] = useState<string>('#BCF804');
-  const [isFollowed, setIsFollowed] = useState<boolean>(false);
-  useEffect(() => {
-    // 从localStorage获取"是否已经关注"  
-    const storedValue = localStorage.getItem('isFollowed');
-    //同步按钮的背景色
-    if (storedValue === 'true') {
-      setSpanBgColor_follow('#ccc');
-    } else if (storedValue === 'false') {
-      setSpanBgColor_follow('#BCF804');
-    } else {
-      //这里约定，后台只能返回true或者false的字符串
-      //alert('error');//这里不能这么写， 因为页面第一次加载的时候，就会执行到这里。
-      console.log('do not set SpanBgColor_follow, because localStorage.getItem(isFollowed)=' + storedValue);
-    }
-    //同步数据库中的“关注状态”到前端
-    if (storedValue === 'true') {
-      setIsFollowed(true);
-    } else if (storedValue === 'false') {
-      setIsFollowed(false);
-    } else {
-      console.log('do not set isfollowed, because localStorage.getItem(isFollowed)=' + storedValue);
-    }
-  }, []);
-  const handleSpanClick_follow = () => {
-    if (!isFollowed) {
-      // 发送请求:  让后台去设置该用户关注xchart的twitter账号;  并将"该用户的已关注状态"存入数据库
-      alert('发送请求, 让后台去设置该用户关注xchart的twitter账号；并将"已关注状态"存入数据库');
-      // 替换state
-      setIsFollowed(true);
-      // 将背景色设置为灰色
-      setSpanBgColor_follow('#ccc');
-      // 页面跳转到“twitter关注页面”
-      //chrome.tabs.create({ url: 'https://x.com' });
-      //chrome.tabs.create({ url: 'https://x.com/XChat_Official' });
-      chrome.runtime.sendMessage({ action: 'createTab', url: 'https://x.com/XChat_Official' });
-      //chrome.runtime.sendMessage({ action: 'createTab', url: 'https://x.com' });
-      // window.postMessage({
-      //   target: 'createTab',
-      //   url: 'https://x.com'
-      // })
-      //console.log('55='+chrome);//object
-      //console.log('100='+chrome.tabGroups);//100=undefied
-      //==>无法在index redirect background这3个页面以外的其他页面上使用chrome.tabs，
-      //其他页面上的chrome.tabs都是undefined, 
-      //只能给background页面中注册的监听器发消息，让background页面中的监听器来做这件事情：chrome.tabs.create('https://x.com/XChat_Official');
-    } else {
-      console.log('user has already focus account of xchart in twitter');
-    }
-  };
-  //3-end: 关注xchart在twitter上的账号
+  // //2-begin: 连续七天签到
+  // const [spanBgColor, setSpanBgColor] = useState<string>('');
+  // const [isLoggedInSevenDays, setIsLoggedInSevenDays] = useState<boolean>(false);
+  // useEffect(() => {
+  //   // 从localStorage获取连续登录天数
+  //   const consecutiveLoginDays = localStorage.getItem('consecutiveLoginDays');
+  //   if (consecutiveLoginDays && parseInt(consecutiveLoginDays) >= 7) {
+  //     setIsLoggedInSevenDays(true);
+  //     setSpanBgColor('#BCF804');
+  //   } else {
+  //     setIsLoggedInSevenDays(false);
+  //     setSpanBgColor('#ccc');
+  //   }
+  // }, []);
+  // const handleSpanClick = () => {
+  //   if (isLoggedInSevenDays) {
+  //     // 将连续登录天数清零并存入localStorage
+  //     localStorage.setItem('consecutiveLoginDays', '0');
+  //     // 替换state状态
+  //     setIsLoggedInSevenDays(false);
+  //     // 将背景色设置为灰色
+  //     setSpanBgColor('#ccc');
+  //   } else {
+  //     alert('已经点击过连续7日签到了');
+  //   }
+  // };
+  // //2-end: 连续七天签到
+  // //3-begin: 关注xchart在twitter上的账号
+  // const [spanBgColor_follow, setSpanBgColor_follow] = useState<string>('#BCF804');
+  // const [isFollowed, setIsFollowed] = useState<boolean>(false);
+  // useEffect(() => {
+  //   // 从localStorage获取"是否已经关注"  
+  //   const storedValue = localStorage.getItem('isFollowed');
+  //   //同步按钮的背景色
+  //   if (storedValue === 'true') {
+  //     setSpanBgColor_follow('#ccc');
+  //   } else if (storedValue === 'false') {
+  //     setSpanBgColor_follow('#BCF804');
+  //   } else {
+  //     //这里约定，后台只能返回true或者false的字符串
+  //     //alert('error');//这里不能这么写， 因为页面第一次加载的时候，就会执行到这里。
+  //     console.log('do not set SpanBgColor_follow, because localStorage.getItem(isFollowed)=' + storedValue);
+  //   }
+  //   //同步数据库中的“关注状态”到前端
+  //   if (storedValue === 'true') {
+  //     setIsFollowed(true);
+  //   } else if (storedValue === 'false') {
+  //     setIsFollowed(false);
+  //   } else {
+  //     console.log('do not set isfollowed, because localStorage.getItem(isFollowed)=' + storedValue);
+  //   }
+  // }, []);
+  // const handleSpanClick_follow = () => {
+  //   if (!isFollowed) {
+  //     // 发送请求:  让后台去设置该用户关注xchart的twitter账号;  并将"该用户的已关注状态"存入数据库
+  //     alert('发送请求, 让后台去设置该用户关注xchart的twitter账号；并将"已关注状态"存入数据库');
+  //     // 替换state
+  //     setIsFollowed(true);
+  //     // 将背景色设置为灰色
+  //     setSpanBgColor_follow('#ccc');
+  //     // 页面跳转到“twitter关注页面”
+  //     //chrome.tabs.create({ url: 'https://x.com' });
+  //     //chrome.tabs.create({ url: 'https://x.com/XChat_Official' });
+  //     chrome.runtime.sendMessage({ action: 'createTab', url: 'https://x.com/XChat_Official' });
+  //     //chrome.runtime.sendMessage({ action: 'createTab', url: 'https://x.com' });
+  //     // window.postMessage({
+  //     //   target: 'createTab',
+  //     //   url: 'https://x.com'
+  //     // })
+  //     //console.log('55='+chrome);//object
+  //     //console.log('100='+chrome.tabGroups);//100=undefied
+  //     //==>无法在index redirect background这3个页面以外的其他页面上使用chrome.tabs，
+  //     //其他页面上的chrome.tabs都是undefined, 
+  //     //只能给background页面中注册的监听器发消息，让background页面中的监听器来做这件事情：chrome.tabs.create('https://x.com/XChat_Official');
+  //   } else {
+  //     console.log('user has already focus account of xchart in twitter');
+  //   }
+  // };
+  // //3-end: 关注xchart在twitter上的账号
   //4-begin: 是否已经邀请过好友（好友是否已经使用过他的邀请码）
   const [spanBgColor_invite, setSpanBgColor_invite] = useState<string>('#BCF804');
   const [isInvited, setIsInvited] = useState<boolean>(false);
@@ -618,8 +638,43 @@ const Task = () => {
   //5-begin: 弹出输入“邀请码”的页面-开始
   const [isInvitationCodeInputOpen, setIsInvitationCodeInputOpen] = useState(false)
   const handleInvitationCodeInputSubmit = (code: string) => {
-    console.log('Invitation code submitted:', code)
-    setIsInvitationCodeInputOpen(false)
+    //向后端发送“使用邀请码”的请求-begin
+    //访问"执行使用邀请码"接口。。。。。。。。。。。。。
+    //continue-begin
+    if (code.trim().length > 0) {
+      console.log('Invitation code submitted:', code);
+      const client = new BusinessExtClient('https://api.xchat.social/business-web', null, null);
+      // 创建请求对象
+      const request = new proto.pb.FillInviteCodeReq();
+      request.setInviteCode(code);
+      //const request = new Empty();
+      const metadata: { [x: string]: string } = {
+        'user-id': account3?.userId || '',
+        'token': account3?.token || '',
+        'device-id': '0',
+      };
+      // 调用"执行使用邀请码"服务方法
+      //client.getTaskStatus();
+      client.fillInviteCode(request, metadata, (err, response) => {
+        if (err) {
+          //如果访问"执行使用邀请码"接口时，抛出异常，  则：     反馈给用户失败的原因    
+          console.error('#####333333333333fillInvite333333373333333Error:', err.message);
+        } else {
+          console.log('fillInvite-msg=', response.toObject().message);
+          if (response.toObject().code === 0) {
+            //如果访问"执行使用邀请码"接口成功， 执行下面动作： 反馈给用户成功
+            console.log('4', '-fillInvite-fillInvite-777777777777788888888means:', response.toObject().message);
+          } else {
+            //如果访问"执行使用邀请码"接口时，不成功， 则：     反馈给用户失败的原因 
+            console.log('---fillInvite-errormessage fillInvite is:', response.toObject().message);
+          }
+        }
+      });
+    }
+    //continue-end
+
+    //向后端发送“使用邀请码”的请求-end
+    setIsInvitationCodeInputOpen(false);
   }
   const handleInvitationCodeInputCancel = () => {
     setIsInvitationCodeInputOpen(false)
@@ -633,7 +688,7 @@ const Task = () => {
   // // 从localStorage中获取之前保存的点击日期
   // if (currentState === '1') {
   //   taskList[0].backgroundColor = '#BCF804';
-  //   taskList[0].award = 'Sign';
+  //   taskList[0].award = 'Finish';
   //   taskList[0].handleClick = handleClick1_1;
   // } else if (currentState === '3') {
   //   taskList[0].backgroundColor = '#BCF804';
@@ -716,7 +771,7 @@ const Task = () => {
             {/* <span className={`text-[#000000] font-bold bg-[${'#adff2f'}] cursor-pointer rounded-[22px] py-[7px] px-[15px]`}
                   //onClick={handleClick}
                   > */}
-            <CreateInviteCodeDialog trigger={<CreateInviteBtn />} invite_code='1122' />
+            <CreateInviteCodeDialog trigger={<CreateInviteBtn />} invite_code={inviteCode} />
             {/* </span> */}
           </div>
         </div>

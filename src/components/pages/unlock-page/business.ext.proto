@@ -1,0 +1,175 @@
+syntax = "proto3";
+package pb;
+option go_package = "gim-xchat/pkg/protocol/pb";
+
+import "google/protobuf/empty.proto";
+
+service BusinessExt {
+  // 登录
+  rpc SignIn (SignInReq) returns (SignInResp);
+  // 获取用户信息
+  rpc GetUser (GetUserReq) returns (GetUserResp);
+  // 更新用户信息
+  rpc UpdateUser (UpdateUserReq) returns (google.protobuf.Empty);
+  // 搜索用户(这里简单数据库实现，生产环境建议使用ES)
+  rpc SearchUser (SearchUserReq) returns (SearchUserResp);
+
+  // 获取推特授权 URL
+  rpc GetTwitterAuthorizeURL (google.protobuf.Empty) returns (TwitterAuthorizeURLResp);
+  // 推特登录
+  rpc TwitterSignIn (TwitterSignInReq) returns (TwitterSignInResp);
+  // 每日签到接口
+  rpc DailySignIn (google.protobuf.Empty) returns (DailySignInResp);
+  // 关注推特
+  rpc FollowTwitter (google.protobuf.Empty) returns (TwitterFollowResp);
+  // 查询任务状态
+  rpc GetTaskStatus (GetTaskStatusReq) returns (GetTaskStatusResp);
+  // 领取任务奖励
+  rpc ClaimTaskReward (ClaimTaskRewardReq) returns (ClaimTaskRewardResp);
+  // 填写邀请码
+  rpc FillInviteCode (FillInviteCodeReq) returns (FillInviteCodeResp);
+
+  rpc ModifyTaskStatus (ModifyTaskStatusReq) returns (ModifyTaskStatusResp);
+}
+
+// 修改任务状态请求
+message ModifyTaskStatusReq {
+  int64 user_id = 1;         // 用户ID
+  int64 task_id = 2;         // 任务ID
+  int32 status = 3;          // 任务状态 (1: 未完成, 2: 进行中, 3: 待领取, 4: 已领取)
+}
+
+// 修改任务状态响应
+message ModifyTaskStatusResp {
+  int32 code = 1;            // 状态码
+  string message = 2;        // 消息描述
+}
+
+// 登录请求
+message SignInReq {
+  string phone_number = 1; // 手机号
+  string code = 2;         // 验证码
+  int64 device_id = 3;     // 设备ID
+}
+
+// 登录响应
+message SignInResp {
+  bool is_new = 1;         // 是否是新用户
+  int64 user_id = 2;       // 用户ID
+  string token = 3;        // Token
+}
+
+// 用户信息
+message User {
+  int64 user_id = 1;            // 用户id
+  string nickname = 2;          // 昵称
+  int32 sex = 3;                // 性别
+  string avatar_url = 4;        // 头像地址
+  string extra = 5;             // 附加字段
+  int64 create_time = 6;        // 创建时间
+  int64 update_time = 7;        // 更新时间
+  string twitter_id = 8;        // 推特id
+  string twitter_username = 9;  // 推特用户名
+  int32 xpoint = 10;            // 用户当前积分
+  int32 follow_reward = 11;     // Twitter关注奖励状态: 0未领取, 1已领取
+  string invite_code = 12;      // 邀请码
+  string inviter_code = 13;     // 邀请人邀请码
+}
+
+// 获取用户信息请求
+message GetUserReq {
+  int64 user_id = 1;          // 用户ID
+}
+
+// 获取用户信息响应
+message GetUserResp {
+  int32 code = 1;             // 状态码
+  string message = 2;         // 消息描述
+  User user = 3;              // 用户信息
+}
+
+// 更新用户信息请求
+message UpdateUserReq {
+  string nickname = 1;        // 昵称
+  int32 sex = 2;              // 性别
+  string avatar_url = 3;      // 头像地址
+  string extra = 4;           // 附加字段
+}
+
+// 搜索用户请求
+message SearchUserReq {
+  string key = 1;             // 搜索关键字
+}
+
+// 搜索用户响应
+message SearchUserResp {
+  repeated User users = 1;    // 用户列表
+}
+
+// 获取 Twitter 授权 URL 响应
+message TwitterAuthorizeURLResp {
+  int32 code = 1;             // 状态码
+  string message = 2;         // 消息描述
+  string url = 3;             // 授权 URL
+}
+
+// 推特登录请求
+message TwitterSignInReq {
+  string authorization_code = 1; // 授权码
+  string state = 2;              // 状态
+}
+
+// 推特登录响应
+message TwitterSignInResp {
+  int32 code = 1;             // 状态码
+  string message = 2;         // 消息描述
+  bool is_new = 3;            // 是否是新用户
+  int64 user_id = 4;          // 用户ID
+  string token = 5;           // Token
+  User user_info = 6;         // 用户信息
+}
+
+// 每日签到响应
+message DailySignInResp {
+  int32 code = 1;             // 状态码
+  string message = 2;         // 消息描述
+}
+
+// Twitter 关注奖励响应
+message TwitterFollowResp {
+  int32 code = 1;             // 状态码
+  string message = 2;         // 消息描述
+  int32 success = 3;          // 领取状态 (0: 失败, 1: 成功)
+}
+
+// 查询任务状态请求
+message GetTaskStatusReq {
+  int64 task_id = 1;          // 任务ID
+}
+
+// 查询任务状态响应
+message GetTaskStatusResp {
+  int32 code = 1;             // 状态码
+  string message = 2;         // 消息描述
+  int32 status = 3;           // 任务状态 (1: 未完成, 2: 进行中, 3: 待领取, 4: 已领取)
+}
+
+message FillInviteCodeReq {
+  string invite_code = 1;     // 邀请码
+}
+
+message FillInviteCodeResp {
+  int32 code = 1;             // 状态码
+  string message = 2;         // 消息描述
+}
+
+// 领取任务奖励请求
+message ClaimTaskRewardReq {
+  int64 task_id = 1;          // 任务ID
+}
+
+// 领取任务奖励响应
+message ClaimTaskRewardResp {
+  int32 code = 1;             // 状态码
+  string message = 2;         // 消息描述
+}

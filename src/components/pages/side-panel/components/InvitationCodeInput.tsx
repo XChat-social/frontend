@@ -21,6 +21,9 @@ const InvitationCodeInput: React.FC<InvitationCodeInputProps> = ({
     onSubmit(code)
     setCode('')
   }
+  const handleCancel = () => {
+    onCancel()
+  }
 
   return (
     <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50'>
@@ -53,6 +56,15 @@ const InvitationCodeInput: React.FC<InvitationCodeInputProps> = ({
             >
               Confirm
             </PixelButton>
+            {/* <PixelButton
+              onClick={handleCancel}
+              backgroundColor='#adff2f'
+              textColor='#000000'
+              width={151}
+              height={44}
+            >
+              Cancel
+            </PixelButton> */}
           </div>
         </div>
       </div>

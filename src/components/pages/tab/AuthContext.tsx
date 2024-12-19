@@ -17,10 +17,11 @@ export type User = {
   nickname: string;
   avatarUrl: string;
   twitterUsername: string;
-}| null;
+  inviteCode: string;
+} | null;
 
 // 定义上下文类型
- type AuthContextType = {
+type AuthContextType = {
   user: User;
   login: (user: User) => void;
   logout: () => void;
