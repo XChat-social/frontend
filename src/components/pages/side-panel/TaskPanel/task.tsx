@@ -69,7 +69,7 @@ const Task = () => {
   const [b1, setB1] = useState('#BCF804');
   const [award2, setAward2] = useState('Claim');
   const [b2, setB2] = useState('#ccc');
-  const [award3, setAward3] = useState('Focous');
+  const [award3, setAward3] = useState('Follow');
   const [b3, setB3] = useState('#BCF804');
   //邀请码
   const [inviteCode, setInviteCode] = useState('1122');
@@ -217,10 +217,10 @@ const Task = () => {
             //--------------------改变按钮样式-begin
             if (con_currentStatef === '1') {
               // taskList[2].backgroundColor = '#BCF804';
-              // taskList[2].award = 'Focous';
+              // taskList[2].award = 'Follow';
               // taskList[2].handleClick = handleClick1_3;
               setB3('#BCF804');
-              setAward3('Focous');
+              setAward3('Follow');
             } else if (con_currentStatef === '3') {
               // taskList[2].backgroundColor = '#BCF804';
               // taskList[2].award = 'Claim';
@@ -316,6 +316,7 @@ const Task = () => {
             setB1('#ccc');
             setAward1('Claim');
             console.log('4', '-claimTaskReward--means:', response.toObject().message);
+            alert(response.toObject().message);
           } else {
             //如果访问"执行领取积分"接口时，抛出异常， 则setCurrentState('3');不修改按钮样式和触发函数。。。。。。。。。      
             console.log('---claimTaskReward-errormessage is:', response.toObject().message);
@@ -371,6 +372,7 @@ const Task = () => {
             setB2('#ccc');
             setAward2('Claim');
             console.log('4', '-claimTaskReward-currentState7-777777777777788888888means:', response.toObject().message);
+            alert(response.toObject().message);
           } else {
             //如果访问"执行领取积分"接口时，抛出异常， 则setCurrentState('3');不修改按钮样式和触发函数。。。。。。。。。      
             console.log('---claimTaskReward-errormessage currentState7 is:', response.toObject().message);
@@ -643,36 +645,41 @@ const Task = () => {
     //continue-begin
     if (code.trim().length > 0) {
       console.log('Invitation code submitted:', code);
-      const client = new BusinessExtClient('https://api.xchat.social/business-web', null, null);
-      // 创建请求对象
-      const request = new proto.pb.FillInviteCodeReq();
-      request.setInviteCode(code);
-      //const request = new Empty();
-      const metadata: { [x: string]: string } = {
-        'user-id': account3?.userId || '',
-        'token': account3?.token || '',
-        'device-id': '0',
-      };
-      // 调用"执行使用邀请码"服务方法
-      //client.getTaskStatus();
-      client.fillInviteCode(request, metadata, (err, response) => {
-        if (err) {
-          //如果访问"执行使用邀请码"接口时，抛出异常，  则：     反馈给用户失败的原因    
-          console.error('#####333333333333fillInvite333333373333333Error:', err.message);
-        } else {
-          console.log('fillInvite-msg=', response.toObject().message);
-          if (response.toObject().code === 0) {
-            //如果访问"执行使用邀请码"接口成功， 执行下面动作： 反馈给用户成功
-            console.log('4', '-fillInvite-fillInvite-777777777777788888888means:', response.toObject().message);
+      if (code.trim() === (account3?.inviteCode || '')) {
+        alert('Unable to redeem your own invitation code');
+      } else {
+        const client = new BusinessExtClient('https://api.xchat.social/business-web', null, null);
+        // 创建请求对象
+        const request = new proto.pb.FillInviteCodeReq();
+        request.setInviteCode(code);
+        //const request = new Empty();
+        const metadata: { [x: string]: string } = {
+          'user-id': account3?.userId || '',
+          'token': account3?.token || '',
+          'device-id': '0',
+        };
+        // 调用"执行使用邀请码"服务方法
+        //client.getTaskStatus();
+        client.fillInviteCode(request, metadata, (err, response) => {
+          if (err) {
+            //如果访问"执行使用邀请码"接口时，抛出异常，  则：     反馈给用户失败的原因
+            alert(err.message);
+            console.error('#####333333333333fillInvite333333373333333Error:', err.message);
           } else {
-            //如果访问"执行使用邀请码"接口时，不成功， 则：     反馈给用户失败的原因 
-            console.log('---fillInvite-errormessage fillInvite is:', response.toObject().message);
+            console.log('fillInvite-msg=', response.toObject().message);
+            alert(response.toObject().message);
+            if (response.toObject().code === 0) {
+              //如果访问"执行使用邀请码"接口成功， 执行下面动作： 反馈给用户成功
+              console.log('4', '-fillInvite-fillInvite-777777777777788888888means:', response.toObject().message);
+            } else {
+              //如果访问"执行使用邀请码"接口时，不成功， 则：     反馈给用户失败的原因 
+              console.log('---fillInvite-errormessage fillInvite is:', response.toObject().message);
+            }
           }
-        }
-      });
+        });
+      }
     }
     //continue-end
-
     //向后端发送“使用邀请码”的请求-end
     setIsInvitationCodeInputOpen(false);
   }

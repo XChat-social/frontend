@@ -1,6 +1,10 @@
 import React from 'react'
 import Image from 'next/image'
 import friendsKeyIcon from 'data-base64:@/assets/friends-key.png'
+import tx1 from 'data-base64:@/assets/tx1.png'
+import tx2 from 'data-base64:@/assets/tx2.png'
+import tx3 from 'data-base64:@/assets/tx3.png'
+import tx4 from 'data-base64:@/assets/tx4.png'
 
 const FriendItem = ({
   name,
@@ -45,24 +49,25 @@ const FriendItem = ({
 )
 
 const Friends = () => {
+  console.log('tx1=', tx1);
   const friends = [
     {
       name: 'Anna Hooper',
-      avatar: null,
+      avatar: tx1,
       isVerified: true,
     },
     {
       name: 'Adam Yagh',
-      avatar: null,
+      avatar: tx2,
       isVerified: true,
     },
-    { name: 'Bruse Swan', avatar: null, isVerified: false },
+    { name: 'Bruse Swan', avatar: tx3, isVerified: false },
     {
       name: 'Emma Yaoo',
-      avatar: null,
+      avatar: tx4,
       isVerified: true,
     },
-    { name: 'Anna Hooper', avatar: null, isVerified: false },
+    { name: 'Anna Hooper', avatar: tx1, isVerified: false },
   ]
 
   return (

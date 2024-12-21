@@ -74,8 +74,10 @@ controller.set(
             signature,
             nonce: data.nonce,
           })
+          console.log(result.success, '---------www1-result.data.address=',result.data.address);
           // 签名成功 通知 sidepanel
           if (result.success) {
+            console.log(result.success, '---------www2-result.data.address=',result.data.address);
             window.postMessage({
               target: 'x-wallet-sidepanel',
               data: {
