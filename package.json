@@ -72,6 +72,8 @@
     "background": {
       "service_worker": "src/background.ts"
     },
+    "displayName": "XChat",
+    "author": "gray",
     "host_permissions": [
       "https://*/*"
     ],
