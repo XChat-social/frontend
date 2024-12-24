@@ -2,11 +2,22 @@ import * as React from 'react'
 
 import { cn } from '~/lib/utils'
 import { Button } from './button'
+// // 定义自定义部分属性
+// interface CustomInputProps {
+//   suffix?: React.ReactNode;
+//   prefix?: React.ReactNode;
+//   iconClick?: (value: string) => void;
+// }
+// // 整合原生input属性与自定义属性
+// export interface InputProps
+//   extends React.InputHTMLAttributes<HTMLInputElement>,
+//   CustomInputProps { }
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'prefix' | 'suffix'> {
   suffix?: React.ReactNode
   prefix?: React.ReactNode
+  // suffix?: string | undefined;
+  // prefix?: string | undefined;
   iconClick?: (value: string) => void
 }
 

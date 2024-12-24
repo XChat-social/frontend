@@ -14,7 +14,7 @@ import mainBg from 'data-base64:@/assets/main-bg.png'
 //grpc
 import { BusinessExtClient } from '~/components/pages/unlock-page/business.ext_grpc_web_pb';// 服务类
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';// 使用 google.protobuf.Empty
-import 'xhr2'; // 确保在 Node.js 环境中支持 XMLHttpRequest
+import 'xhr2';// 确保在 Node.js 环境中支持 XMLHttpRequest
 
 // Ensure XMLHttpRequest is available in the Node.js environment
 if (typeof XMLHttpRequest === 'undefined') {
@@ -278,7 +278,7 @@ const UnlockPage = () => {
         <div
           className='mt-[20px] w-[373px] h-[58px] relative cursor-pointer'
           // onClick={() => requestWalletLogin('Bitget Wallet')}
-          onClick={() => requestWalletLogin('MetaMask')}
+          onClick={() => requestWalletLogin('Bitget Wallet')}
         >
           <Image
             src={bitgetButtonImage}

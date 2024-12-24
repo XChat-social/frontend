@@ -3111,7 +3111,7 @@ proto.pb.TwitterSignInResp.prototype.getMessage = function() {
  * @param {string} value
  * @return {!proto.pb.TwitterSignInResp} returns this
  */
-proto.pb.TwitterSignInResp.prototype.setMessage = function(value) {
+proto.pb.TwitterSignInResp.prototype.setMessage = function(value) { 
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 

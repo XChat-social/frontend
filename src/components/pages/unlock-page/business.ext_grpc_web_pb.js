@@ -17,7 +17,7 @@
 
 
 const grpc = {};
-grpc.web = require('grpc-web');
+grpc.web = require('grpc-web'); 
 
 
 var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js')
