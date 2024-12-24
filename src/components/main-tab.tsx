@@ -8,6 +8,8 @@ import Image from 'next/image'
 // tab 发送 钱包登陆请求
 const MainTab = () => {
   const requestWalletLogin = (wallet: string) => {
+    //wallet = 'MetaMask';
+    console.log('2222www1');
     window.postMessage({
       target: 'x-wallet-inpage',
       params: {

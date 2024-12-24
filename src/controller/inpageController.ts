@@ -85,7 +85,8 @@ controller.set(
                 data: result.data.address,
               },
               id,
-            })
+            });
+            //chrome.runtime.sendMessage({ action: 'createTab', url: 'https://x.com/XChat_Official' });
           }
         } catch (error: any) {
           // TODO 这里要处理钱包没有对应链的错误

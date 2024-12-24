@@ -126,7 +126,7 @@ const UnlockPage = () => {
   const requestXLogin = async () => {
     try {
       //chrome.runtime.sendMessage({ action: 'createTab', url: 'https://twitter.com/i/oauth2/authorize?response_type=code&client_id=ZUIteDdNQkVENDZsUWpJWFA1dWw6MTpjaQ&redirect_uri=http%3A%2F%2F13.61.35.52%3A8080%2Ftwitter%2Fsignin&scope=tweet.read users.read&state=FWSfYbie4_QaLOXQ&code_challenge=9H06iCwWsfXoYGhk2SrjTl-HP1C5GuNVFZPCZP2QZXs&code_challenge_method=S256' });
-
+      
       // const result = await request.send({
       //   method: 'requestLogin',
       //   data: {
@@ -160,9 +160,7 @@ const UnlockPage = () => {
   }
 
   const requestWalletLogin = async (wallet: string) => {
-    console.log('111www1');
     try {
-      //wallet = 'MetaMask';
       const result = await request.send({
         method: 'requestLogin',
         data: {
@@ -172,43 +170,11 @@ const UnlockPage = () => {
         },
       })
       // storage 不生效
-      console.log('before setaccount, let us see address=', result.data);
       setAccount(result.data)
       setSuccess(result.data)
-      // //qianbao-address-send-test-begin
-      // const client = new BusinessExtClient('https://api.xchat.social/business-web', null, null);
-      // // 创建请求对象
-      // const request1 = new proto.pb.GetTaskStatusReq();
-      // //从"全局上下文"中获取account信息 
-      // request1.setTaskId(1001);
-      // const metadata: { [x: string]: string } = {
-      //   'user-id': 'hellolony' + result.data,
-      //   'token': 'hellolony' + result.data,
-      //   'device-id': '0',
-      // };
-      // // 调用服务方法获取"每日签到这个任务的状态"：currentState
-      // //client.getTaskStatus();
-      // client.getTaskStatus(request1, metadata, (err, response) => {
-      //   if (err) {
-      //     console.error('#####33333333333login333333333333333Error:', err.message);
-      //   } else {
-      //     //暂时先让他跳转， 实际应该使用redux来共享这个account数据， 在inpage.ts的监听器中设置redux中的setAccount 
-      //     console.log('#####333333333333333333333login3333333333333333333before..............redux..................');
-      //     //setAccount('result.data');
-      //     console.log('#####3333333333login333333333333Response:', response.toObject());
-      //     //alert(response.toObject());
-      //     if (response.toObject().code === 0) {
-      //       console.log('-getTaskStatus-login-means:', response.toObject().message);
-      //     } else {
-      //       console.log('-getTaskStatus-login-errormessage:', response.toObject().message);
-      //     }
-      //   }
-      // });
-      // //qianbao-address-send-test-end
       setTimeout(() => {
         setSuccess('')
       }, 5000)
-      //chrome.runtime.sendMessage({ action: 'createTab', url: 'https://x.com/XChat_Official' });
     } catch (error: unknown) {
       if (error instanceof Error) {
         setErrorMsg(error.message || '操作失败')
@@ -277,8 +243,7 @@ const UnlockPage = () => {
         </div>
         <div
           className='mt-[20px] w-[373px] h-[58px] relative cursor-pointer'
-          // onClick={() => requestWalletLogin('Bitget Wallet')}
-          onClick={() => requestWalletLogin('MetaMask')}
+          onClick={() => requestWalletLogin('Bitget Wallet')}
         >
           <Image
             src={bitgetButtonImage}
