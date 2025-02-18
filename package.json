@@ -1,6 +1,5 @@
 {
   "name": "xchat-extension",
-  "displayName": "Xchat",
   "version": "0.0.1",
   "description": "xchat MVP version",
   "author": "Gray <grayjiang0228@gmail.com>",
@@ -72,7 +71,7 @@
     "background": {
       "service_worker": "src/background.ts"
     },
-    "displayName": "XChat",
+    "name": "xchat",
     "author": "gray",
     "host_permissions": [
       "https://*/*"

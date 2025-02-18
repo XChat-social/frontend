@@ -1,4 +1,4 @@
-import '~/styles/globals.css'
+import '../styles/globals.css'
 import { useState } from 'react'
 import { WalletProvider, useWallet } from '~/components/wallet-provider'
 import Redirect from './redirect'
