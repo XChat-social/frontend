@@ -1,3 +1,5 @@
+import type { Url } from "url";
+
 console.log('root-background.ts222');
 export {}
 console.log('root-background.ts');
@@ -16,6 +18,92 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     // }
   });
   
+
+
+    //4
+    // 监听 Tab 页关闭事件
+    // background.ts
+    let activeTabId: number | null = null;
+    //let previousActiveTabId: number | null = null;
+    let tab_url: string | undefined = '';
+    let tab_title: string | undefined = '';
+    // 监听当前激活的 Tab ID
+    chrome.tabs.onUpdated.addListener((tabId,changeInfo, tab) => {
+      debugger; 
+      chrome.tabs.get(tabId, (tab) => {
+        //当访问twitter的时候： 才设置tab_url和tab_title
+        // if (tab.url && tab.url.includes('x.com')){
+        //   tab_url = tab.url;
+        //   tab_title = tab.title;
+        // }
+        //当访问twitter，且不是打开钱包窗口的时候： 才给activeTabId赋值
+        //if (tab.url && tab.url.includes('x.com') && (tab_title==='X') ) {
+        if (tab.url === 'https://x.com/') {
+          tab_url = tab.url;
+          console.log('chrome.tabs.onActivated.addListener:', tabId);
+          //关闭tab页面的时候，可能会触发这个函数，此时tabid是null， 所以需要判断一下：只有tabid不是null的时候才将tabid保存到activeTabId中
+          if(tabId){
+            activeTabId = tabId;
+          }
+          debugger;
+        }
+      });
+      
+    })
+    // 监听 Tab 页关闭事件
+    chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
+      //chrome.tabs.get(tabId, (tab) => {
+        //当“关闭的是twitter的tab页面”且“关闭的不是钱包窗口”的时候：  才删除用户信息
+        //if (tab_url && tab_url.includes('x.com') && (tab_title==='X')) {
+        if (tab_url === 'https://x.com/') {
+            // 这里可以添加你想要执行的代码逻辑，比如打印一些信息到控制台，表示特定网址的tab页被关闭了
+            console.log(`Tab with ID ${tabId} and URL ${tab_url} from x.com has been removed.`);
+            // 你也可以在这里进行更多复杂的操作，比如向后台服务器发送通知等，取决于你的具体需求
+            console.log(activeTabId, 'is activeTabId,tabid is:', tabId);
+            debugger;
+            console.debug('22--' + tabId + '--22' + 'activeTabId333 is:' + '22--' + activeTabId + '--22');
+            console.debug((tabId+'') === (activeTabId+''));
+            console.debug(('22--' + tabId + '--22') === ('22--' + activeTabId + '--22'));
+            console.debug(111111);
+            // chrome.storage.local.set({activeTabId, tabId}, () => {
+            //   //console.log(tabId, "-------------------------------activeTabId updated:", activeTabId)
+            //   chrome.storage.local.get(['activeTabId', 'tabId'], (result) => {
+            //       //console.log(result.tabId,"activeTabId retrieved after set:", result.activeTabId)
+            //   })
+            // })
+            if (tabId === activeTabId) {
+              // // 如果是当前活动的 Tab，则清空 storage
+              chrome.storage.local.remove(['account', 'loginTime'], () => {
+                console.log('Tab closed, account cleared.')
+              })
+              // 可选：发送消息通知其他前端页面刷新状态
+              //chrome.runtime.sendMessage({ type: 'TAB_CLOSED' })
+            } else {
+              console.log(activeTabId, 'is activeTabId22222222,tabId !== activeTabId, tabid22222222 is:', tabId)
+            }
+        }
+      //});
+      // chrome.storage.local.remove(['account', 'loginTime'], () => {
+      //   console.log('Tab closed, account cleared.')
+      // })
+      // chrome.storage.local.set({activeTabId, tabId}, () => {
+      //   //console.log(tabId, "-------------------------------activeTabId updated:", activeTabId)
+      //   chrome.storage.local.get(['activeTabId', 'tabId'], (result) => {
+      //       //console.log(result.tabId,"activeTabId retrieved after set:", result.activeTabId)
+      //   })
+      // })
+      // 可选：发送消息通知其他前端页面刷新状态
+      //chrome.runtime.sendMessage({ type: 'TAB_CLOSED' })
+    });
+    // 监听浏览器窗口关闭事件（仅适用于 Manifest v2）
+    // Manifest v3 使用 onSuspend 事件处理
+    chrome.windows.onRemoved.addListener(() => {
+      // console.log(activeTabId, 'is activeTabId33333333')
+      // chrome.storage.local.remove(['account', 'loginTime'], () => {
+      //   console.log('Window closed, account cleared.')
+      // })
+    });
+
 
   console.log('index loading complete.......');
 

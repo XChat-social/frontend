@@ -17,7 +17,7 @@
 
 
 const grpc = {};
-grpc.web = require('grpc-web'); 
+grpc.web = require('grpc-web');
 
 
 var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js')
@@ -323,16 +323,16 @@ proto.pb.BusinessExtPromiseClient.prototype.searchUser =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.google.protobuf.Empty,
+ *   !proto.pb.GetTwitterAuthorizeURLReq,
  *   !proto.pb.TwitterAuthorizeURLResp>}
  */
 const methodDescriptor_BusinessExt_GetTwitterAuthorizeURL = new grpc.web.MethodDescriptor(
   '/pb.BusinessExt/GetTwitterAuthorizeURL',
   grpc.web.MethodType.UNARY,
-  google_protobuf_empty_pb.Empty,
+  proto.pb.GetTwitterAuthorizeURLReq,
   proto.pb.TwitterAuthorizeURLResp,
   /**
-   * @param {!proto.google.protobuf.Empty} request
+   * @param {!proto.pb.GetTwitterAuthorizeURLReq} request
    * @return {!Uint8Array}
    */
   function(request) {
@@ -343,7 +343,7 @@ const methodDescriptor_BusinessExt_GetTwitterAuthorizeURL = new grpc.web.MethodD
 
 
 /**
- * @param {!proto.google.protobuf.Empty} request The
+ * @param {!proto.pb.GetTwitterAuthorizeURLReq} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
@@ -364,7 +364,7 @@ proto.pb.BusinessExtClient.prototype.getTwitterAuthorizeURL =
 
 
 /**
- * @param {!proto.google.protobuf.Empty} request The
+ * @param {!proto.pb.GetTwitterAuthorizeURLReq} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
@@ -750,6 +750,67 @@ proto.pb.BusinessExtPromiseClient.prototype.fillInviteCode =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
+ *   !proto.pb.WalletSignInReq,
+ *   !proto.pb.WalletSignInResp>}
+ */
+const methodDescriptor_BusinessExt_WalletSignIn = new grpc.web.MethodDescriptor(
+  '/pb.BusinessExt/WalletSignIn',
+  grpc.web.MethodType.UNARY,
+  proto.pb.WalletSignInReq,
+  proto.pb.WalletSignInResp,
+  /**
+   * @param {!proto.pb.WalletSignInReq} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.pb.WalletSignInResp.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.pb.WalletSignInReq} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.pb.WalletSignInResp)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.pb.WalletSignInResp>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.pb.BusinessExtClient.prototype.walletSignIn =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/pb.BusinessExt/WalletSignIn',
+      request,
+      metadata || {},
+      methodDescriptor_BusinessExt_WalletSignIn,
+      callback);
+};
+
+
+/**
+ * @param {!proto.pb.WalletSignInReq} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.pb.WalletSignInResp>}
+ *     Promise that resolves to the response
+ */
+proto.pb.BusinessExtPromiseClient.prototype.walletSignIn =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/pb.BusinessExt/WalletSignIn',
+      request,
+      metadata || {},
+      methodDescriptor_BusinessExt_WalletSignIn);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
  *   !proto.pb.ModifyTaskStatusReq,
  *   !proto.pb.ModifyTaskStatusResp>}
  */
@@ -805,6 +866,67 @@ proto.pb.BusinessExtPromiseClient.prototype.modifyTaskStatus =
       request,
       metadata || {},
       methodDescriptor_BusinessExt_ModifyTaskStatus);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.pb.SearchTwitterUserReq,
+ *   !proto.pb.SearchTwitterUserResp>}
+ */
+const methodDescriptor_BusinessExt_SearchTwitterUser = new grpc.web.MethodDescriptor(
+  '/pb.BusinessExt/SearchTwitterUser',
+  grpc.web.MethodType.UNARY,
+  proto.pb.SearchTwitterUserReq,
+  proto.pb.SearchTwitterUserResp,
+  /**
+   * @param {!proto.pb.SearchTwitterUserReq} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.pb.SearchTwitterUserResp.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.pb.SearchTwitterUserReq} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.pb.SearchTwitterUserResp)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.pb.SearchTwitterUserResp>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.pb.BusinessExtClient.prototype.searchTwitterUser =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/pb.BusinessExt/SearchTwitterUser',
+      request,
+      metadata || {},
+      methodDescriptor_BusinessExt_SearchTwitterUser,
+      callback);
+};
+
+
+/**
+ * @param {!proto.pb.SearchTwitterUserReq} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.pb.SearchTwitterUserResp>}
+ *     Promise that resolves to the response
+ */
+proto.pb.BusinessExtPromiseClient.prototype.searchTwitterUser =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/pb.BusinessExt/SearchTwitterUser',
+      request,
+      metadata || {},
+      methodDescriptor_BusinessExt_SearchTwitterUser);
 };
 
 

@@ -14,6 +14,9 @@ import storeIcon from 'data-base64:@/assets/store-small.png'
 import storeIconBig from 'data-base64:@/assets/store-big.png'
 import settingsIcon from 'data-base64:@/assets/settings-small.png'
 import settingsIconBig from 'data-base64:@/assets/settings-big.png'
+
+import taskIcon from 'data-base64:@/assets/task-icon.png'
+import taskIconBig from 'data-base64:@/assets/task-icon.png'
 const MainContent = () => {
   const [isDiscountDialogOpen, setIsDiscountDialogOpen] = useState(false)
 
@@ -45,8 +48,9 @@ const MainContent = () => {
           />
           <TabsTrigger
             //value='settings'
+            //settingsIcon
             value='task'
-            src={{ default: settingsIcon, active: settingsIconBig }}
+            src={{ default: taskIcon, active: taskIconBig }}
             width={{ default: 21, active: 30 }}
             height={{ default: 21, active: 28 }}
           />
@@ -56,9 +60,15 @@ const MainContent = () => {
             width={{ default: 21, active: 30 }}
             height={{ default: 21, active: 28 }}
           />
-          <TabsTrigger
+          {/* <TabsTrigger
             value='friends'
             src={{ default: friendsIcon, active: friendsIconBig }}
+            width={{ default: 21, active: 30 }}
+            height={{ default: 21, active: 28 }}
+          /> */}
+          <TabsTrigger
+            value='settings'
+            src={{ default: settingsIcon, active: settingsIconBig }}
             width={{ default: 21, active: 30 }}
             height={{ default: 21, active: 28 }}
           />
@@ -67,9 +77,9 @@ const MainContent = () => {
           <TabsContent value='chat'>
             <ChatPanel />
           </TabsContent>
-          <TabsContent 
-          // value='settings'
-          value='task'
+          <TabsContent
+            // value='settings'
+            value='task'
           >
             <TaskPanel />
             {/* <SettingsPanel /> */}
@@ -77,8 +87,11 @@ const MainContent = () => {
           <TabsContent value='store'>
             <StorePanel />
           </TabsContent>
-          <TabsContent value='friends'>
+          {/* <TabsContent value='friends'>
             <FriendsPanel />
+          </TabsContent> */}
+          <TabsContent value='settings'>
+            <SettingsPanel />
           </TabsContent>
         </div>
       </Tabs>

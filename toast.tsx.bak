@@ -350,11 +350,11 @@ const Toast = (props: ToastProps) => {
           data-close-button
           onClick={
             disabled || !dismissible
-              ? () => {}
+              ? () => { }
               : () => {
-                  deleteToast();
-                  toast.onDismiss?.(toast);
-                }
+                deleteToast();
+                toast.onDismiss?.(toast);
+              }
           }
           className={cn(classNames?.closeButton, toast?.classNames?.closeButton)}
         >
@@ -523,10 +523,10 @@ const Toaster = (props: ToasterProps) => {
     theme !== 'system'
       ? theme
       : typeof window !== 'undefined'
-      ? window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light'
-      : 'light',
+        ? window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light'
+        : 'light',
   );
 
   const listRef = React.useRef<HTMLOListElement>(null);

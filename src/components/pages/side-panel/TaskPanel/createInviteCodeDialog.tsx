@@ -24,21 +24,22 @@ export default function CreateInviteCodeDialog({
   const wrapper = useRef<HTMLDivElement>(null)
   //拷贝到操作系统的粘贴板
   async function copyTextToClipboard(text: string): Promise<void> {
+    debugger;
     if (navigator.clipboard) {
-        try {
-            await navigator.clipboard.writeText(text);
-            console.log('文本已成功复制到粘贴板');
-        } catch (err) {
-            console.error('复制到粘贴板时出错: ', err);
-        }
+      try {
+        await navigator.clipboard.writeText(text);
+        console.log('文本已成功复制到粘贴板');
+      } catch (err) {
+        console.error('复制到粘贴板时出错: ', err);
+      }
     } else {
-        console.error('当前浏览器不支持navigator.clipboard API');
+      console.error('当前浏览器不支持navigator.clipboard API');
     }
   }
 
   const handleCopy = () => {
     copyTextToClipboard(invite_code).then(() => {
-        // 可以在这里进行后续操作，比如提示用户已复制成功等
+      // 可以在这里进行后续操作，比如提示用户已复制成功等
     });
   }
   return (
@@ -53,7 +54,7 @@ export default function CreateInviteCodeDialog({
               className='w-[373px] h-[277px] flex flex-col pb-2 border-none'
               style={{ background: `url(${bg}) center / cover no-repeat` }}
             >
-              <DialogTitle style={{color:"green",marginTop:"30px"}}>YOUR INVITATION CODE IS:</DialogTitle>
+              <DialogTitle style={{ color: "green", marginTop: "30px" }}>YOUR INVITATION CODE IS:</DialogTitle>
               <div className='flex flex-col h-[137px] mt-[2px] bg-white opacity-80'>
                 <Textarea
                   className='flex-1 border-none rounded-none text-lg'

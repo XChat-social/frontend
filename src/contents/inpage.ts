@@ -1,6 +1,7 @@
 import { useStorage } from '@plasmohq/storage/hook'
 import type { PlasmoCSConfig } from 'plasmo'
 import { useEffect, useRef } from 'react';
+import type { User } from '~/components/pages/tab/AuthContext';
 import { inpageController } from '~/controller/inpageController' 
 
 export const config: PlasmoCSConfig = {
@@ -10,7 +11,7 @@ export const config: PlasmoCSConfig = {
  
 
 // 监听来自side panel或者content scripts的消息 他们都处于非Main的环境里，都具有window对象
-window.addEventListener('message', (crop) => {
+const listener_login = (crop:MessageEvent<any>) => {
   if (
     crop.data.target === 'x-wallet-inpage' &&
     crop.origin === window.location.origin
@@ -46,11 +47,93 @@ window.addEventListener('message', (crop) => {
         //chrome.storage.local.set({ account: urlParamObj }, () => {
         //   console.log("------------------------555555555Account updated to:", urlParamObj);
         // });
-      window.postMessage(
-        { source: "inpage", type: "updateAccount", account: urlParamObj },
-        "*"
-      );
-      console.log("---------------111Message forwarded to background:", urlParamObj);
+      //url转换为account对象：
+      //url: https://x.com/?redirect=redirectx
+      //&token=8f9a30a0f1faaf4f98e8ffd040b9de32
+      //&userId=8
+      //&nickname=Kurry
+      //&avatarUrl=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1865723832775917568%2FDaTBV4Rh_normal.png
+      //&twitterUsername=Kurry_test
+      //&inviteCode=Zq5c9iV1
+      //&walletAddress=
+      //account的user类型：             
+      //如果是钱包登录，那么： 服务器端的返回值:
+            //{code: 0, message: 'Wallet sign-in successful', isNew: false, 
+            // userId: 13, token: '944bdd252e05d13d2c9540687a182649', 
+            //userInfo :  
+            //{avatarUrl: "", createTime : 0, extra :  "", followReward :  0 ,inviteCode : "FBz72SQA",
+            //inviterCode :  "", nickname :  "",sex :  0 
+            //twitterId : "", twitterUsername :  "",
+            //updateTime : 0, userId :  13 , walletAddress :  "0xD1174C910bD9317CbD5f0F174f58d12b12b68cF1"
+            //xpoint :  0
+            //}}
+      //客户端定义的user类型:
+      /**
+       export type UserInfo = {
+        nickname: string;
+        avatarUrl: string;
+        twitterUsername: string;
+        inviteCode: string;
+        walletAddress: string | null;
+        extra: string | null;
+        inviterCode: string | null;
+        userId: number | null;
+        xpoint: number | null;
+        followReward: number | null;
+        sex: number | null;
+        createTime: number | null;
+        updateTime: number | null;
+      } | null;
+      export type User = {
+        userId: string;
+        token: string;
+        userInfo: UserInfo;
+        code: number | null;
+        message: string | null;
+        isNew: boolean | null;
+      } | null;
+       */
+      let account: User = {
+        userId: urlParamObj.userId,
+        token: urlParamObj.token,
+        userInfo: {
+          nickname: urlParamObj.nickname,
+          avatarUrl: urlParamObj.avatarUrl,
+          twitterUsername: urlParamObj.twitterUsername,
+          inviteCode: urlParamObj.inviteCode,
+          walletAddress: urlParamObj.walletAddress
+        }
+      };
+      //出现这种情况的场景：  用户先用钱包登录，然后点击follow按钮：  跳转到twitter登录页面， 用之前登录过xchat的twitter用户来登录twitter 
+      
+      console.log("---------------4444urlParamObj.errMessage:", urlParamObj.errMessage);
+      if(urlParamObj.errMessage==="userexists"){
+        //1
+        // alert('您登录的用户已存在,请使用其他twitter用户登录来绑定您目前登录的钱包用户');
+        // return;
+        //2 
+        //window.removeEventListener('message', listener_login);
+        console.log("---------------333Message forwarded to background:", account);
+        window.postMessage( 
+          { source: "inpage", type: "mergeAccountConflict", account},
+          "*"
+        );
+      } else  if(urlParamObj.errMessage==="bindsuccess"){
+        console.log("---------------2222Message forwarded to background:", account); 
+        window.postMessage(
+          //{ source: "inpage", type: "updateAccount", account: urlParamObj },
+          { source: "inpage", type: "mergeAccountSuccess", account},
+          "*"
+        );
+      } else {
+        //出现这种情况的场景：  用户先用钱包登录，然后点击follow按钮：  跳转到twitter登录页面， 用之前登录过xchat的twitter用户来登录twitter 
+        console.log("---------------111Message forwarded to background:", account);
+        window.postMessage(
+          //{ source: "inpage", type: "updateAccount", account: urlParamObj },
+          { source: "inpage", type: "updateAccount", account},
+          "*"
+        );
+      }
       //清理location
       window.history.replaceState({},document.title, window.location.pathname);
       const param = { id: urlParamObj.userId,                   //id: 'userId?.toString', //这里要用chatgpt修改
@@ -61,9 +144,12 @@ window.addEventListener('message', (crop) => {
         inpageController('requestLogin', param),
       );
     } else {
-      //console.log('redirect_url:',redirect_url);
+      //console.log('param-redirect is not redirectx:',urlParam);
     }
   } 
-});
+}; 
+window.addEventListener('message',  
+  listener_login
+);
 
  
